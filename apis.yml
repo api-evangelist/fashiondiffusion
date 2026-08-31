@@ -1,0 +1,51 @@
+name: Fashion Diffusion
+description: >-
+  AI Fashion Design Platform for Brands & Creators offering a generative AI fashion suite (virtual try-on, AI
+  model/outfit generation, flat lay, background removal, recolor, face swap, fashion video). Provides a
+  key-authenticated REST API, currently documenting Virtual Try-On task endpoints.
+url: >-
+  https://raw.githubusercontent.com/api-evangelist/ai-fashion-design-platform-for-brands-amp-creators/refs/heads/main/apis.yml
+created: '2026-08-31'
+modified: '2026-08-31'
+specificationVersion: '0.21'
+tags:
+  - Fashion
+  - E-commerce
+  - Retail
+  - Generative AI
+  - Image Generation
+  - Virtual Try-On
+  - Computer Vision
+  - Video Generation
+  - Product Photography
+  - Creative / Design Tools
+apis:
+  - name: Fashion Diffusion Public API
+    description: >-
+      REST API for AI fashion tasks. Bearer API key authentication (Authorization: Bearer fd_live_xxx). Currently
+      documented endpoints cover Virtual Try-On: submit task (POST /virtual-try-on/tasks, returns 202), query task (GET
+      /tasks/{taskId}), and list tasks (GET /tasks). JSON request bodies with image URLs or Base64 data URLs.
+    humanURL: https://www.fashiondiffusion.ai/api-access
+    baseURL: https://www.fashiondiffusion.ai/api/public/v1/
+    tags:
+      - Fashion
+      - E-commerce
+      - Retail
+      - Generative AI
+      - Image Generation
+      - Virtual Try-On
+      - Computer Vision
+      - Video Generation
+      - Product Photography
+      - Creative / Design Tools
+    properties:
+      - type: Documentation
+        url: https://www.fashiondiffusion.ai/api-access
+maintainers:
+  - FN: Fashion Diffusion Support
+    url: mailto:support@fashiondiffusion.ai
+generated:
+  by: apis.io/add
+  model: claude-opus-4-8
+  confidence: 80
+  at: '2026-08-31T03:44:59.070Z'
