@@ -1,0 +1,97 @@
+generated: '2026-08-31'
+method: searched
+source: https://www.fashiondiffusion.ai/playground/api/docs
+name: Fashion Diffusion Public API — Lifecycle
+description: >-
+  Fashion Diffusion runs a v1 Public API with no published lifecycle apparatus around
+  it: no version history, no deprecation or sunset policy, no changelog, no status
+  page and no SLA. The only lifecycle statement in the documentation is an admission
+  about the current version's limitations rather than a commitment about its future.
+docs: https://www.fashiondiffusion.ai/playground/api/docs
+versioning:
+  scheme: uri-path
+  current_version: v1
+  base: https://www.fashiondiffusion.ai/api/public/v1
+  policy_published: false
+  version_history_published: false
+  self_description: >-
+    "This version has no idempotency protection" — the docs describe v1 as a version
+    with a known gap, implying a successor, but no roadmap or migration note is given.
+deprecation:
+  policy_published: false
+  sunset_header: false
+  deprecation_header: false
+  rfc8594: false
+  deprecated_operations: []
+  note: No deprecation policy, Sunset/Deprecation header usage or notice period is published.
+status_page:
+  present: false
+  url: null
+  note: >-
+    No status or uptime page was found. status.fashiondiffusion.ai does not resolve in
+    DNS and no status link appears in the site navigation, footer or API docs.
+  evidence:
+    - url: https://status.fashiondiffusion.ai
+      status: '<no response> (NXDOMAIN)'
+sla:
+  published: false
+  note: >-
+    Terms of Service 5.1 states the platform is provided "as is" without warranties of
+    any kind regarding availability, accuracy, or performance. Per-endpoint latency
+    expectations ARE published on the API landing page (see latency_expectations) but
+    they are marketing guidance, not a service commitment.
+  source: https://www.fashiondiffusion.ai/terms-of-service
+latency_expectations:
+  method: searched
+  source: https://www.fashiondiffusion.ai/api-access
+  note: Published per-capability latency ranges, not contractual.
+  entries:
+    - capability: Virtual Try-On
+      latency: 10-40 seconds
+    - capability: AI Model Generator
+      latency: 10-40 seconds
+    - capability: AI Outfit Generator
+      latency: 10-40 seconds
+    - capability: Flat Lay Generator
+      latency: 5-20 seconds
+    - capability: Background Changer
+      latency: 5-15 seconds
+    - capability: AI Clothes Recolor
+      latency: 5-20 seconds
+    - capability: Face Swap
+      latency: 5-20 seconds
+    - capability: Fashion Video Generator
+      latency: 1-3 minutes
+    - capability: Background Remover
+      latency: 1-5 seconds
+changelog:
+  published: false
+  note: >-
+    No dated API changelog or release-notes page exists. The company blog is a
+    marketing/SEO surface about fashion AI techniques, not a release feed.
+  source: https://www.fashiondiffusion.ai/blog
+surface_gap:
+  note: >-
+    The API landing page markets "more than 18 purpose-built fashion AI endpoints",
+    but the public reference documents only four operations across two capabilities
+    (Virtual Try-On and AI Inpainting) plus task query and list. The remaining
+    advertised endpoints have no public contract, reference or example.
+  marketed_endpoints: '18+'
+  documented_operations: 4
+  evidence:
+    - url: https://www.fashiondiffusion.ai/api-access
+      status: 200
+    - url: https://www.fashiondiffusion.ai/playground/api/docs
+      status: 200
+host_gap:
+  note: >-
+    The API landing page's JavaScript sample calls
+    https://api.fashiondiffusion.ai/v1/virtual-try-on, but api.fashiondiffusion.ai does
+    not resolve in DNS. The authoritative base documented in the reference is
+    https://www.fashiondiffusion.ai/api/public/v1/, which is the one that answers.
+    A developer copying the marketing snippet gets a DNS failure.
+  evidence:
+    - url: https://api.fashiondiffusion.ai/v1/virtual-try-on
+      status: '<no response> (NXDOMAIN)'
+    - url: https://www.fashiondiffusion.ai/api/public/v1/virtual-try-on/tasks
+      status: 401

@@ -1,0 +1,121 @@
+generated: '2026-08-31'
+method: searched
+source: https://www.fashiondiffusion.ai/playground/api/docs, https://www.fashiondiffusion.ai/privacy-policy
+name: Fashion Diffusion — Standards and compliance conformance
+description: >-
+  What Fashion Diffusion's own published surfaces assert about cross-cutting standards
+  conformance. Assertions come from the public API reference and the privacy policy;
+  every entry carries the evidence that supports or refutes it. Generative fashion
+  imagery has no market-specific interchange standard, so domain_standard is recorded
+  as not-applicable rather than invented.
+standards:
+  - id: oauth2
+    conforms: false
+    evidence: >-
+      Authentication is a single static bearer API key (fd_live_ prefix). No
+      authorization server, token endpoint, grant type or scope surface is documented,
+      and /.well-known/oauth-authorization-server returns 404.
+    source: https://www.fashiondiffusion.ai/playground/api/docs
+  - id: oidc
+    conforms: false
+    evidence: /.well-known/openid-configuration returns 404; no OIDC discovery document is served.
+  - id: rfc9457
+    conforms: false
+    evidence: >-
+      Errors return application/json with a proprietary {"error":{code,message,requestId}}
+      envelope, not application/problem+json with type/title/status/detail.
+    source: https://www.fashiondiffusion.ai/playground/api/docs
+  - id: idempotency
+    conforms: false
+    evidence: >-
+      Docs state verbatim "This version has no idempotency protection". No
+      Idempotency-Key header is accepted or documented.
+    source: https://www.fashiondiffusion.ai/playground/api/docs
+  - id: pagination
+    conforms: true
+    evidence: >-
+      Cursor pagination is documented on GET /tasks: limit (1-100, default 20),
+      opaque cursor supplied from the previous response's nextCursor, and an optional
+      createdAfter ISO 8601 filter.
+    source: https://www.fashiondiffusion.ai/playground/api/docs
+  - id: rfc9116
+    conforms: false
+    evidence: /.well-known/security.txt returns 404.
+  - id: rfc8594
+    conforms: false
+    evidence: No Sunset or Deprecation header usage is documented; no deprecation policy exists.
+  - id: json-api
+    conforms: false
+    evidence: Plain JSON request/response bodies; no JSON:API document structure, media type or conventions.
+  - id: openapi
+    conforms: false
+    evidence: >-
+      No OpenAPI or Swagger document is served. /openapi.json, /openapi.yaml,
+      /swagger.json, /api-docs and the same paths under the API base all return 404.
+  - id: asyncapi
+    conforms: false
+    evidence: >-
+      No event, streaming or webhook surface exists to describe. Task completion is
+      discovered by polling only.
+  - id: iso8601
+    conforms: true
+    evidence: createdAfter is documented as an ISO 8601 timestamp.
+    source: https://www.fashiondiffusion.ai/playground/api/docs
+domain_standard:
+  applicable: false
+  note: >-
+    Fashion Diffusion's market is generative apparel imagery. There is no interchange,
+    messaging or identifier standard for that market analogous to SCIM, OData, OpenRTB,
+    FHIR, HL7v2 or ISO 20022, and the provider claims none. Recorded as not-applicable;
+    no conformance is invented to fill the slot.
+compliance:
+  published: true
+  certifications: []
+  note: >-
+    Fashion Diffusion publishes a regulatory-compliance posture in its privacy policy
+    but holds out NO independently audited certification. No SOC 2, ISO 27001, HIPAA
+    or FedRAMP claim appears anywhere on the site, and there is no trust center.
+  programs:
+    - id: gdpr
+      claimed: true
+      evidence: >-
+        "EEA / UK / Switzerland users: You have additional rights under GDPR including
+        data portability, restriction of processing, and the right to lodge a complaint
+        with your local data protection authority. For data transfers to the US, we rely
+        on Standard Contractual Clauses (SCCs)."
+      source: https://www.fashiondiffusion.ai/privacy-policy
+    - id: ccpa
+      claimed: true
+      evidence: >-
+        "California residents: You have rights under the CCPA to know what data we hold
+        and to request its deletion. We do not sell personal data."
+      source: https://www.fashiondiffusion.ai/privacy-policy
+    - id: pci-dss
+      claimed: processor-only
+      evidence: >-
+        "Payments are processed by Stripe and Apple under PCI-DSS standards." The claim
+        is about the payment processors, not about Fashion Diffusion holding a PCI
+        attestation of its own.
+      source: https://www.fashiondiffusion.ai/privacy-policy
+  data_protection:
+    hosting: AWS infrastructure in the United States
+    in_transit: TLS
+    at_rest: AES-256
+    retention: >-
+      Account data for the life of the account plus 30 days; uploaded images until the
+      user deletes them; billing records for 7 years as required by law.
+    training_use: >-
+      "Uploaded images are not used to train Fashion Diffusion models without explicit
+      consent." Enterprise customers can request additional compliance documentation.
+    source: https://www.fashiondiffusion.ai/privacy-policy
+evidence:
+  - url: https://www.fashiondiffusion.ai/playground/api/docs
+    status: 200
+  - url: https://www.fashiondiffusion.ai/privacy-policy
+    status: 200
+  - url: https://www.fashiondiffusion.ai/terms-of-service
+    status: 200
+  - url: https://www.fashiondiffusion.ai/.well-known/security.txt
+    status: 404
+  - url: https://www.fashiondiffusion.ai/openapi.json
+    status: 404

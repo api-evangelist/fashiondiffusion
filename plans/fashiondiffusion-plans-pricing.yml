@@ -1,0 +1,130 @@
+generated: '2026-08-31'
+method: searched
+source: https://www.fashiondiffusion.ai/pricing
+name: Fashion Diffusion — Plans and pricing
+description: >-
+  Fashion Diffusion sells one self-serve subscription ladder that covers the whole
+  product, app and API alike. There is no separate API price list: every published
+  tier states "Developer API access" as an included feature, and API consumption is
+  metered in the same monthly image credits the app spends. Enterprise API volume is
+  routed to a contact-sales conversation rather than a published tier.
+docs: https://www.fashiondiffusion.ai/pricing
+currency: USD
+billing_periods: [monthly, yearly]
+yearly_discount: '2 months free'
+metering_unit: credit
+metering_note: >-
+  Credits are consumed by generations across all tools; the pricing page expresses
+  each tier as "create up to N images" and an implied per-image cost. Per-endpoint
+  credit costs are not published.
+plan_count: 4
+plans:
+  - name: Starter
+    price: 12.00
+    currency: USD
+    period: month
+    included_quota:
+      credits_per_month: 100
+      images_up_to: 100
+      effective_per_image_usd: 0.12
+    limits:
+      credit_bank_max: 300
+    overage:
+      model: credit-pack purchase
+      note: '"Buy extra credits anytime" — pack prices are on the pricing page Packs tab'
+    features:
+      - All AI fashion tools included
+      - 4K image generation and upscaling
+      - AI model library
+      - AI videos (1080p)
+      - Developer API access
+    cancellation: Cancel anytime
+  - name: Creator
+    price: 29.00
+    currency: USD
+    period: month
+    most_popular: true
+    included_quota:
+      credits_per_month: 320
+      images_up_to: 320
+      effective_per_image_usd: 0.09
+    limits:
+      credit_bank_max: 960
+    overage:
+      model: credit-pack purchase
+    features:
+      - All AI fashion tools included
+      - 4K image generation and upscaling
+      - AI model library
+      - AI videos (1080p)
+      - Developer API access
+    cancellation: Cancel anytime
+  - name: Pro
+    price: 59.00
+    currency: USD
+    period: month
+    included_quota:
+      credits_per_month: 760
+      images_up_to: 760
+      effective_per_image_usd: 0.08
+    limits:
+      credit_bank_max: 2280
+    overage:
+      model: credit-pack purchase
+    features:
+      - All AI fashion tools included
+      - 4K image generation and upscaling
+      - AI model library
+      - AI videos (1080p)
+      - Developer API access
+    cancellation: Cancel anytime
+  - name: Studio
+    price: 199.00
+    currency: USD
+    period: month
+    included_quota:
+      credits_per_month: 2800
+      images_up_to: 2800
+      effective_per_image_usd: 0.07
+    limits:
+      credit_bank_max: 8400
+    overage:
+      model: credit-pack purchase
+    features:
+      - All AI fashion tools included
+      - 4K image generation and upscaling
+      - AI model library
+      - AI videos (1080p)
+      - Developer API access
+    cancellation: Cancel anytime
+free_tier:
+  present: false
+  note: >-
+    No free or trial tier is listed on the pricing page. The lowest published entry
+    point is Starter at $12.00/month.
+credit_packs:
+  present: true
+  note: >-
+    The pricing page carries a "Packs" tab for one-off credit purchases alongside the
+    subscription "Plans" tab. Individual pack sizes and prices are rendered client-side
+    on that tab and were not captured in the server-rendered HTML.
+  source: https://www.fashiondiffusion.ai/pricing
+enterprise:
+  published_tier: false
+  motion: contact-sales
+  note: >-
+    The API landing page states API "plans are scoped to your workload, endpoint needs,
+    and service requirements" and the FAQ answers "How do I get started?" with
+    "Contact us to discuss your use case." No enterprise price, committed-volume rate
+    or SLA tier is published.
+  source: https://www.fashiondiffusion.ai/api-access
+billing_notes:
+  - Each accepted API task creates a charge; there is no idempotency protection, so a
+    duplicated submission is a duplicated charge.
+  - Terms of Service 4.5 assigns refunds for in-app subscription purchases to Apple
+    under Apple Media Services Terms.
+evidence:
+  - url: https://www.fashiondiffusion.ai/pricing
+    status: 200
+  - url: https://www.fashiondiffusion.ai/api-access
+    status: 200

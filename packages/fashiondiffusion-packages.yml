@@ -1,0 +1,51 @@
+generated: '2026-08-31'
+method: searched
+source: npm, PyPI, GitHub registry and org searches on 2026-08-31
+name: Fashion Diffusion — Client packages and SDKs
+description: >-
+  Fashion Diffusion publishes no first-party client library in any package registry
+  and no code in its own GitHub account. Integration is raw HTTP: the reference offers
+  curl, and the API landing page shows hand-written fetch (JavaScript) and Python
+  snippets rather than an SDK. No SDKs pointer is wired into apis.yml, because there
+  are no SDKs.
+package_count: 0
+official_package_count: 0
+packages: []
+registries_searched:
+  - registry: npm
+    query: fashiondiffusion
+    url: https://registry.npmjs.org/-/v1/search?text=fashiondiffusion
+    status: 200
+    results: 0
+    version: null
+  - registry: pypi
+    query: fashiondiffusion
+    url: https://pypi.org/pypi/fashiondiffusion/json
+    status: 404
+    version: null
+  - registry: pypi
+    query: fashion-diffusion
+    url: https://pypi.org/pypi/fashion-diffusion/json
+    status: 404
+    version: null
+  - registry: github
+    query: org repositories
+    url: https://api.github.com/users/fashiondiffusion/repos
+    status: 200
+    results: 0
+    version: null
+    note: >-
+      The GitHub account github.com/FashionDiffusion is the company's own — its bio and
+      website field point at www.fashiondiffusion.ai — but it holds zero public
+      repositories, so there is no source-distributed client either.
+docs_snippets:
+  note: >-
+    The API landing page presents JavaScript and Python examples described as
+    "examples for JavaScript and Python". These are inline fetch/HTTP snippets in the
+    marketing page, not a distributed library.
+  source: https://www.fashiondiffusion.ai/api-access
+  languages: [JavaScript, Python]
+gaps:
+  - No first-party SDK in any registry.
+  - No published source repository to fork or read.
+  - Because no OpenAPI is published either, consumers cannot generate a client.

@@ -1,8 +1,20 @@
 name: Fashion Diffusion
+aid: fashiondiffusion
 description: >-
-  AI Fashion Design Platform for Brands & Creators offering a generative AI fashion suite (virtual try-on, AI
-  model/outfit generation, flat lay, background removal, recolor, face swap, fashion video). Provides a
-  key-authenticated REST API, currently documenting Virtual Try-On task endpoints.
+  AI fashion design and commercial photography platform for brands and creators,
+  offering a generative AI fashion suite — virtual try-on, AI model and outfit
+  generation, flat lay production, background change and removal, garment recolor,
+  face swap and fashion video. Fashion Diffusion exposes a bearer-key REST Public API
+  at https://www.fashiondiffusion.ai/api/public/v1/ built on a submit-and-poll task
+  model: a generation request returns HTTP 202 with a task id, and the caller polls
+  until the task reaches SUCCEEDED or FAILED. The published reference documents four
+  operations across two capabilities — Virtual Try-On and AI Inpainting submission
+  plus task query and cursor-paginated task list — while marketing advertises more
+  than 18 endpoints. There is no OpenAPI, GraphQL schema, Postman collection, MCP
+  server, agent card, SDK, webhook surface, status page or changelog, and the
+  reference states plainly that this version carries no idempotency protection.
+image: >-
+  https://zhiyi-image.oss-cn-hangzhou.aliyuncs.com/devops/comfyui/input/demo/web-assets/fd-web/v20260806/images/product-hero/home.webp
 url: >-
   https://raw.githubusercontent.com/api-evangelist/ai-fashion-design-platform-for-brands-amp-creators/refs/heads/main/apis.yml
 created: '2026-08-31'
@@ -22,9 +34,16 @@ tags:
 apis:
   - name: Fashion Diffusion Public API
     description: >-
-      REST API for AI fashion tasks. Bearer API key authentication (Authorization: Bearer fd_live_xxx). Currently
-      documented endpoints cover Virtual Try-On: submit task (POST /virtual-try-on/tasks, returns 202), query task (GET
-      /tasks/{taskId}), and list tasks (GET /tasks). JSON request bodies with image URLs or Base64 data URLs.
+      REST API for asynchronous AI fashion generation tasks. Authenticates with a single
+      long-lived bearer API key (Authorization: Bearer fd_live_xxx); the secret is shown
+      only once at creation and a key may read only tasks owned by its user and current
+      team. Documented operations: POST /virtual-try-on/tasks and POST /ai-inpainting/tasks
+      (both return 202 with a task id), GET /tasks/{taskId}, and GET /tasks with cursor
+      pagination (limit 1-100, default 20, nextCursor, optional createdAfter). Image fields
+      accept exactly one input form — a public HTTPS URL or a Base64 data URL — JPEG, PNG
+      or WebP up to 20 MB. Errors use a proprietary envelope
+      {"error":{"code","message","requestId"}} with the id echoed in X-Request-Id. No
+      idempotency protection, no reversal path, no rate-limit headers and no webhooks.
     humanURL: https://www.fashiondiffusion.ai/api-access
     baseURL: https://www.fashiondiffusion.ai/api/public/v1/
     tags:
@@ -40,12 +59,59 @@ apis:
       - Creative / Design Tools
     properties:
       - type: Documentation
-        url: https://www.fashiondiffusion.ai/api-access
+        url: https://www.fashiondiffusion.ai/playground/api/docs
+      - type: APIReference
+        url: https://www.fashiondiffusion.ai/playground/api/docs
+      - type: Authentication
+        url: authentication/fashiondiffusion-authentication.yml
+      - type: Conventions
+        url: conventions/fashiondiffusion-conventions.yml
+      - type: ErrorCatalog
+        url: errors/fashiondiffusion-problem-types.yml
+      - type: RateLimits
+        url: rate-limits/fashiondiffusion-rate-limits.yml
+      - type: Plans
+        url: plans/fashiondiffusion-plans-pricing.yml
+      - type: Lifecycle
+        url: lifecycle/fashiondiffusion-lifecycle.yml
+      - type: DataModel
+        url: data-model/fashiondiffusion-data-model.yml
 maintainers:
   - FN: Fashion Diffusion Support
+    email: support@fashiondiffusion.ai
     url: mailto:support@fashiondiffusion.ai
 generated:
   by: apis.io/add
   model: claude-opus-4-8
   confidence: 80
   at: '2026-08-31T03:44:59.070Z'
+common:
+- type: DomainSecurity
+  url: security/fashiondiffusion-domain-security.yml
+- type: DeveloperPortal
+  url: https://www.fashiondiffusion.ai/playground/api
+- type: Pricing
+  url: https://www.fashiondiffusion.ai/pricing
+- type: SignUp
+  url: https://www.fashiondiffusion.ai/login
+- type: TermsOfService
+  url: https://www.fashiondiffusion.ai/terms-of-service
+- type: PrivacyPolicy
+  url: https://www.fashiondiffusion.ai/privacy-policy
+- type: Blog
+  url: https://www.fashiondiffusion.ai/blog
+- type: GitHubOrganization
+  url: https://github.com/FashionDiffusion
+- type: Support
+  url: mailto:support@fashiondiffusion.ai
+- type: Conformance
+  url: conformance/fashiondiffusion-conformance.yml
+- type: Compliance
+  url: conformance/fashiondiffusion-conformance.yml
+- type: LLMsTxt
+  url: llms/fashiondiffusion-llms.txt
+x-enrichment:
+  date: '2026-08-31'
+  status: enriched
+  artifacts_added: 13
+  pass: local-v1

@@ -1,0 +1,42 @@
+generated: '2026-08-31'
+method: searched
+source: https://www.fashiondiffusion.ai/playground/api/docs
+name: Fashion Diffusion Public API — Rate limits
+description: >-
+  Fashion Diffusion publishes no request-rate policy and no rate-limit response
+  headers. This is an honest zero, not an unchecked field: the full public API
+  reference and the API landing page were read and neither mentions a per-second,
+  per-minute, per-key or concurrency limit, a 429 status, or any RateLimit-* header.
+docs: https://www.fashiondiffusion.ai/playground/api/docs
+limit_count: 0
+limits: []
+response_headers:
+  published: false
+  ratelimit_headers: []
+  retry_after: false
+status_on_exhaustion: undocumented
+concurrency_limit: undocumented
+throughput_governor:
+  model: monthly credit allowance
+  note: >-
+    Consumption is bounded commercially rather than by a published request rate: each
+    plan carries a fixed monthly credit allowance and a credit-bank ceiling, and each
+    accepted task spends credits. See plans/fashiondiffusion-plans-pricing.yml.
+  source: https://www.fashiondiffusion.ai/pricing
+observed:
+  method: probed
+  note: >-
+    Unauthenticated requests to the live API returned 401 with no rate-limit headers
+    present in the response. Authenticated observation would require a paid key.
+  evidence:
+    - url: https://www.fashiondiffusion.ai/api/public/v1/tasks
+      status: 401
+    - url: https://www.fashiondiffusion.ai/api/public/v1/virtual-try-on/tasks
+      status: 401
+agent_impact: >-
+  An agent has no runtime backoff signal from this API. With no 429 semantics, no
+  Retry-After and no idempotency protection, there is no safe automatic retry policy;
+  callers must pace themselves and treat a timeout as possibly-succeeded.
+gaps:
+  - Publish a per-key request rate and the headers that carry it.
+  - Document the status code and body returned when an allowance is exhausted.

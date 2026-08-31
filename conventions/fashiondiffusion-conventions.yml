@@ -1,0 +1,159 @@
+generated: '2026-08-31'
+method: searched
+source: https://www.fashiondiffusion.ai/playground/api/docs
+name: Fashion Diffusion Public API — Cross-cutting conventions
+description: >-
+  Runtime semantics an agent needs before calling the Fashion Diffusion Public API:
+  how it authenticates, how it paginates, how it traces a request, what its error
+  envelope looks like, and — critically — what it does NOT offer, which here includes
+  idempotency, rate-limit headers, webhooks and any reversal path for a charged task.
+docs: https://www.fashiondiffusion.ai/playground/api/docs
+
+auth:
+  style: bearer-api-key
+  header: 'Authorization: Bearer fd_live_xxx'
+  detail: authentication/fashiondiffusion-authentication.yml
+
+versioning:
+  style: uri-path
+  current: v1
+  base: https://www.fashiondiffusion.ai/api/public/v1
+  header_negotiation: false
+  policy_published: false
+  note: >-
+    The version appears only in the path. No version policy, sunset policy or
+    version history is published; see lifecycle/fashiondiffusion-lifecycle.yml.
+
+idempotency:
+  supported: false
+  state: absent
+  header: null
+  scope: null
+  retention: null
+  evidence: >-
+    Docs, Virtual Try-On section, verbatim: "Each accepted request creates and charges
+    a new task. This version has no idempotency protection, so do not automatically
+    retry a timed-out submission unless duplicate charges are acceptable."
+  source: https://www.fashiondiffusion.ai/playground/api/docs
+  agent_impact: >-
+    A retried or duplicated POST bills a second credit-consuming task. Any agent
+    driving this API must treat submission as at-most-once at the caller and MUST NOT
+    apply a generic retry-on-timeout policy.
+
+pagination:
+  style: cursor
+  applies_to:
+    - GET /tasks
+  request_params:
+    - name: limit
+      range: 1-100
+      default: 20
+    - name: cursor
+      description: opaque cursor; pass the previous response's nextCursor
+    - name: createdAfter
+      format: ISO 8601 timestamp
+      required: false
+  response_fields:
+    - nextCursor
+  total_count_field: null
+
+field_expansion:
+  supported: false
+sparse_fieldsets:
+  supported: false
+metadata:
+  customer_metadata_field: false
+
+request_tracing:
+  response_header: X-Request-Id
+  error_body_field: error.requestId
+  note: >-
+    "All endpoints use JSON and return a request ID in the response header."
+    The same id is echoed in the error envelope, so a failed call is reportable
+    to support with one identifier.
+  method: probed
+  evidence:
+    - url: https://www.fashiondiffusion.ai/api/public/v1/tasks
+      status: 401
+      note: unauthenticated response carried error.requestId (uuid)
+
+error_envelope:
+  format: proprietary
+  rfc9457: false
+  content_type: application/json
+  shape: '{"error": {"code": "<STRING_ENUM>", "message": "<human readable>", "requestId": "<uuid>"}}'
+  catalog: errors/fashiondiffusion-problem-types.yml
+
+rate_limit_signaling:
+  headers_published: false
+  status_on_exhaustion: undocumented
+  detail: rate-limits/fashiondiffusion-rate-limits.yml
+  note: >-
+    No RateLimit-*, X-RateLimit-* or Retry-After header is documented, and no 429
+    behaviour is described. Throughput is governed commercially by the monthly
+    credit allowance on the plan, not by a published request-rate policy.
+
+async_execution:
+  model: submit-and-poll
+  submit_status: 202
+  task_states: [QUEUED, RUNNING, SUCCEEDED, FAILED]
+  poll_operation: GET /tasks/{taskId}
+  result_field: outputs
+  callbacks_webhooks: false
+  note: >-
+    There is no callback or webhook surface. Completion is discovered only by polling
+    GET /tasks/{taskId}; polling cadence is not documented.
+
+media_constraints:
+  input_forms: [public HTTPS URL, Base64 data URL]
+  formats: [JPEG, PNG, WebP]
+  max_size_mb: 20
+  note: exactly one input form per image field
+
+dry_run_mode:
+  supported: false
+  state: absent
+  note: >-
+    No preview, validate-only or estimate mode is documented. Every accepted
+    submission is billed, so an agent cannot rehearse a call.
+
+reversibility:
+  state: absent
+  grade: none
+  applies: true
+  note: >-
+    The API has a write surface — POST /virtual-try-on/tasks and POST
+    /ai-inpainting/tasks each create a billed task — but Fashion Diffusion publishes
+    NO reversal operation for it. There is no cancel, no abort, no void, no credit
+    refund endpoint and no delete-task operation in the documented surface, and no
+    window is stated anywhere. This is not `na`: the write surface exists and the
+    reversal does not.
+  surfaces:
+    - operation: POST /virtual-try-on/tasks
+      consequence: creates and charges a new task (credits deducted)
+      reversal_operation: null
+      window: null
+      evidence: >-
+        "Each accepted request creates and charges a new task." — docs, Virtual Try-On
+    - operation: POST /ai-inpainting/tasks
+      consequence: creates and charges a new task (credits deducted)
+      reversal_operation: null
+      window: null
+  commercial_reversal:
+    subscription_refunds: >-
+      Terms of Service 4.5 assigns refund handling for in-app subscription purchases to
+      Apple under Apple Media Services Terms and states the operator does not directly
+      process those refunds. This is a billing-level statement about subscriptions, not
+      an API-level reversal of a submitted task.
+    source: https://www.fashiondiffusion.ai/terms-of-service
+  agent_impact: >-
+    An agent cannot take back a submitted generation task. Combined with the absent
+    idempotency protection, a duplicate submission is both unpreventable at the API
+    and unrecoverable after the fact.
+
+cross_links:
+  authentication: authentication/fashiondiffusion-authentication.yml
+  errors: errors/fashiondiffusion-problem-types.yml
+  lifecycle: lifecycle/fashiondiffusion-lifecycle.yml
+  rate_limits: rate-limits/fashiondiffusion-rate-limits.yml
+  data_model: data-model/fashiondiffusion-data-model.yml

@@ -1,0 +1,61 @@
+generated: '2026-08-31'
+method: searched
+source: https://www.fashiondiffusion.ai/playground/api/docs
+name: Fashion Diffusion Public API — Authentication
+description: >-
+  Fashion Diffusion authenticates every Public API call with a single long-lived
+  bearer API key. There is no OAuth 2.0 authorization server, no OpenID Connect
+  discovery document, no mutual TLS and no scope surface — a key is either valid
+  or it is not, and its authority is bounded by the user and team that own it.
+docs: https://www.fashiondiffusion.ai/playground/api/docs
+key_management_url: https://www.fashiondiffusion.ai/playground/api
+schemes:
+  - id: bearerApiKey
+    type: http
+    scheme: bearer
+    in: header
+    header: Authorization
+    format: 'Authorization: Bearer fd_live_xxx'
+    key_prefix: fd_live_
+    description: >-
+      "Create an API key and send the complete secret as a bearer credential.
+      The secret is displayed only once." (docs, Authentication section)
+    applies_to: all documented Public API operations
+    evidence:
+      url: https://www.fashiondiffusion.ai/playground/api/docs
+      status: 200
+oauth2: false
+openid_connect: false
+mutual_tls: false
+scopes:
+  present: false
+  note: >-
+    No scope, permission or role surface is documented. Authority is implicit:
+    "An API key can only read tasks owned by its user and current team."
+key_lifecycle:
+  created_at: https://www.fashiondiffusion.ai/playground/api
+  secret_display: once-only at creation
+  rotation_documented: false
+  expiry_documented: false
+  revocation_documented: false
+  multiple_keys_per_user: true
+  note: >-
+    Docs state task listing includes "tasks submitted with any of the user's API
+    keys", which confirms a user may hold more than one key. Rotation, expiry and
+    revocation procedures are not documented publicly.
+failure_mode:
+  status: 401
+  body: '{"error":{"code":"INVALID_API_KEY","message":"Invalid API key","requestId":"<uuid>"}}'
+  method: probed
+  evidence:
+    - url: https://www.fashiondiffusion.ai/api/public/v1/tasks
+      status: 401
+      note: unauthenticated GET, observed 2026-08-31
+    - url: https://www.fashiondiffusion.ai/api/public/v1/virtual-try-on/tasks
+      status: 401
+      note: unauthenticated POST with empty JSON body, observed 2026-08-31
+gaps:
+  - No machine-readable contract declares this scheme; it exists only as prose plus
+    curl examples on the docs page.
+  - No documented key rotation or revocation path.
+  - Access to a key requires a paid plan sign-in; the docs page itself is anonymous.

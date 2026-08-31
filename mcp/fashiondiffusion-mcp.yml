@@ -1,0 +1,66 @@
+generated: '2026-08-31'
+method: derived
+source: https://www.fashiondiffusion.ai/playground/api/docs
+name: Fashion Diffusion — MCP candidate
+status: candidate
+description: >-
+  Fashion Diffusion ships NO Model Context Protocol server — neither a hosted remote
+  endpoint nor a published local stdio package. This file records that verified
+  absence and a derived candidate tool list built from the four operations the
+  provider actually documents, so the gap is legible. No MCPServer pointer is wired
+  into apis.yml, because nothing is served.
+deployment:
+  mode: none
+  endpoint: null
+  install: null
+  package: null
+  auth: unknown
+  verified: probed
+  note: >-
+    No endpoint URL is invented here. mcp.fashiondiffusion.ai does not resolve;
+    /mcp and /api/mcp on the live host return 404; npm and PyPI carry no
+    fashiondiffusion package; the provider's GitHub account has zero public repos.
+search_evidence:
+  - url: https://mcp.fashiondiffusion.ai/mcp
+    status: '<no response> (NXDOMAIN)'
+  - url: https://www.fashiondiffusion.ai/mcp
+    status: 404
+  - url: https://www.fashiondiffusion.ai/api/mcp
+    status: 404
+  - url: https://registry.npmjs.org/-/v1/search?text=fashiondiffusion
+    status: 200
+    note: 0 results
+  - url: https://api.github.com/users/fashiondiffusion/repos
+    status: 200
+    note: 0 public repositories
+candidate_tools:
+  note: >-
+    DERIVED, not published. Each entry maps one documented REST operation. Input
+    schemas reflect the parameters named in the public reference; they are not a
+    provider-published MCP inputSchema.
+  tools:
+    - name: fashion_diffusion_submit_virtual_try_on
+      description: Submit a garment image and a model image to generate a photorealistic try-on result.
+      backing_operation: POST /virtual-try-on/tasks
+      inputs: [garmentImageUrl|garmentImageBase64, modelImageUrl|modelImageBase64, imageCount, resolution, ratio, mode, model, prompt]
+      consequence: write — creates and charges a billed task, not reversible
+    - name: fashion_diffusion_submit_ai_inpainting
+      description: Replace or repair a selected area of an image with a text prompt.
+      backing_operation: POST /ai-inpainting/tasks
+      inputs: [originalImageUrl|imageBase64, prompt, model, resolution, ratio, referenceImages]
+      consequence: write — creates and charges a billed task, not reversible
+    - name: fashion_diffusion_get_task
+      description: Read one task by id and retrieve its status and output image URLs.
+      backing_operation: GET /tasks/{taskId}
+      inputs: [taskId]
+      consequence: read
+    - name: fashion_diffusion_list_tasks
+      description: List Public API tasks submitted by the current user, newest-first with a cursor.
+      backing_operation: GET /tasks
+      inputs: [limit, cursor, createdAfter]
+      consequence: read
+agent_caveats:
+  - The two write tools have no idempotency protection and no reversal path; a retry
+    is a second charge that cannot be taken back.
+  - Completion requires polling; there is no callback, webhook or event stream.
+  - No rate-limit headers exist, so an agent has no backoff signal.

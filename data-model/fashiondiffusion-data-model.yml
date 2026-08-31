@@ -1,0 +1,130 @@
+generated: '2026-08-31'
+method: derived
+source: https://www.fashiondiffusion.ai/playground/api/docs
+name: Fashion Diffusion Public API — Data model
+description: >-
+  Entity graph derived from the published Public API reference. There is no OpenAPI to
+  read $refs from, so this model is derived from the documented request bodies, the
+  documented task statuses and the documented list/query semantics. Field types not
+  stated by the provider are recorded as unknown rather than assumed.
+derivation_note: >-
+  Derived from prose and curl examples on the public reference page, not from a
+  machine-readable contract. Only fields the provider names are represented.
+entities:
+  - name: Task
+    description: >-
+      The single first-class resource of the Public API. Every generation request
+      creates a Task; the caller polls it until it reaches a terminal status.
+    identifier:
+      field: taskId
+      prefix: unpublished
+      note: >-
+        The docs use the placeholder {taskId} and do not publish an id format or prefix.
+    fields:
+      - name: taskId
+        type: string
+        source: returned by the submit endpoint (202) and used as the path parameter
+      - name: status
+        type: enum
+        values: [QUEUED, RUNNING, SUCCEEDED, FAILED]
+      - name: outputs
+        type: array
+        description: output image URLs, returned on success
+      - name: createdAt
+        type: string
+        format: ISO 8601
+        note: >-
+          Inferred as present because GET /tasks accepts a createdAfter filter; the
+          field is not itself named in the response documentation.
+        confidence: low
+    ownership:
+      scope: user + current team
+      evidence: >-
+        "An API key can only read tasks owned by its user and current team." List
+        returns tasks "submitted with any of the user's API keys".
+  - name: ApiKey
+    description: >-
+      A bearer credential minted in the Developer API area. Not exposed as an API
+      resource — there is no key CRUD endpoint in the Public API.
+    fields:
+      - name: secret
+        type: string
+        prefix: fd_live_
+        note: displayed only once at creation
+    exposed_via_api: false
+  - name: User
+    description: Account that owns API keys and tasks. Not exposed as an API resource.
+    exposed_via_api: false
+  - name: Team
+    description: >-
+      Named in the task read-authority rule ("its user and current team"), so a team
+      concept exists in the authorization model. Not exposed as an API resource.
+    exposed_via_api: false
+relationships:
+  - from: User
+    to: ApiKey
+    type: has_many
+    via: implicit
+    evidence: '"any of the user''s API keys"'
+  - from: User
+    to: Task
+    type: has_many
+    via: implicit
+    evidence: GET /tasks lists tasks submitted by the current user
+  - from: ApiKey
+    to: Task
+    type: has_many
+    via: implicit
+    evidence: tasks are attributed to the key that submitted them
+  - from: Team
+    to: Task
+    type: has_many
+    via: implicit
+    evidence: a key may read tasks owned by its current team
+  - from: Task
+    to: TaskOutput
+    type: has_many
+    via: outputs
+operations:
+  - operationId: submitVirtualTryOnTask
+    method: POST
+    path: /virtual-try-on/tasks
+    returns: 202 + task id
+    request_fields:
+      - garmentImageUrl | garmentImageBase64
+      - modelImageUrl | modelImageBase64
+      - imageCount (1, 2, 4; default 1)
+      - resolution (2K, 4K; default 2K)
+      - ratio (auto, 1:1, 3:4, 4:3, 9:16, 16:9; default auto)
+      - mode (FAST, REFINE; default FAST)
+      - model (standard, pro; default standard)
+      - prompt
+  - operationId: submitAiInpaintingTask
+    method: POST
+    path: /ai-inpainting/tasks
+    returns: 202 + task object (same shape as Virtual Try-On)
+    request_fields:
+      - originalImageUrl | imageBase64
+      - prompt
+      - model (standard, pro; default standard)
+      - resolution (2K, 4K; default 2K)
+      - ratio (auto, 1:1, 3:4, 4:3, 9:16, 16:9; default auto)
+      - referenceImages (optional)
+      - mask image (optional; without one the provider selects the editable area)
+  - operationId: getTask
+    method: GET
+    path: /tasks/{taskId}
+  - operationId: listTasks
+    method: GET
+    path: /tasks
+    query_params: [limit, cursor, createdAfter]
+media_constraints:
+  input_forms: [public HTTPS URL, Base64 data URL]
+  formats: [JPEG, PNG, WebP]
+  max_size_mb: 20
+  rule: each image field accepts exactly one input form
+gaps:
+  - No response schema is published for a successful task read; field names beyond
+    status and outputs are unknown.
+  - No id format is published for taskId.
+  - No error-detail field is published for a FAILED task.

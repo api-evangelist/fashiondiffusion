@@ -1,0 +1,69 @@
+generated: '2026-08-31'
+method: searched
+source: https://www.fashiondiffusion.ai/playground/api/docs
+name: Fashion Diffusion Public API — Error catalog
+description: >-
+  The Fashion Diffusion Public API returns a proprietary JSON error envelope, not
+  RFC 9457 application/problem+json. Only two error codes are publicly evidenced:
+  one shown in the documentation and one observed on a live unauthenticated request.
+  Fashion Diffusion publishes no error-code reference, so this catalog is deliberately
+  short rather than speculative.
+docs: https://www.fashiondiffusion.ai/playground/api/docs
+format: proprietary
+rfc9457: false
+content_type: application/json
+envelope:
+  shape: '{"error": {"code": "<STRING_ENUM>", "message": "<human readable>", "requestId": "<uuid>"}}'
+  fields:
+    - name: error.code
+      type: string
+      description: machine-readable, SCREAMING_SNAKE_CASE enum value
+    - name: error.message
+      type: string
+      description: human-readable detail, may name the offending field
+    - name: error.requestId
+      type: string
+      format: uuid
+      description: correlation id, also returned in the X-Request-Id response header
+  trace_header: X-Request-Id
+problem_types:
+  - code: VALIDATION_ERROR
+    http_status: 400
+    title: Request validation failed
+    detail_example: 'garmentImageUrl: Invalid url'
+    remediation: >-
+      Correct the named field. Image fields accept exactly one input form — either a
+      public HTTPS URL or a Base64 data URL, JPEG/PNG/WebP, 20 MB maximum.
+    method: searched
+    evidence:
+      url: https://www.fashiondiffusion.ai/playground/api/docs
+      status: 200
+      note: verbatim example in the docs "Errors" section
+  - code: INVALID_API_KEY
+    http_status: 401
+    title: Invalid API key
+    detail_example: Invalid API key
+    remediation: >-
+      Send the complete secret as Authorization Bearer. The secret is displayed only
+      once at creation; issue a new key from the Developer API area if it was lost.
+    method: probed
+    evidence:
+      - url: https://www.fashiondiffusion.ai/api/public/v1/tasks
+        status: 401
+        note: unauthenticated GET, observed 2026-08-31
+      - url: https://www.fashiondiffusion.ai/api/public/v1/virtual-try-on/tasks
+        status: 401
+        note: unauthenticated POST, observed 2026-08-31
+task_failure_state:
+  note: >-
+    An asynchronous task may end in status FAILED. Docs state the statuses (QUEUED,
+    RUNNING, SUCCEEDED, FAILED) but do NOT publish a failure-reason field or a
+    failure-code vocabulary, so an agent cannot programmatically distinguish a
+    retryable generation failure from a permanent one.
+  states: [QUEUED, RUNNING, SUCCEEDED, FAILED]
+gaps:
+  - No published error-code reference page; the catalog above is the complete set of
+    publicly evidenced codes, not the complete set the API can return.
+  - No 429 / rate-limit error is documented.
+  - No 5xx behaviour, retry guidance or Retry-After semantics are documented, and the
+    absence of idempotency makes retry guidance load-bearing.
