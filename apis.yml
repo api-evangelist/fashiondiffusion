@@ -22,6 +22,17 @@ modified: '2026-08-31'
 specificationVersion: '0.21'
 tags:
   - Fashion
+  - E-Commerce
+  - Retail
+  - Generative AI
+  - Image-Generation
+  - Virtual Try-On
+  - Computer-Vision
+  - Video Generation
+  - Product Photography
+  - Creative / Design Tools
+tags_raw:
+  - Fashion
   - E-commerce
   - Retail
   - Generative AI
@@ -47,6 +58,17 @@ apis:
     humanURL: https://www.fashiondiffusion.ai/api-access
     baseURL: https://www.fashiondiffusion.ai/api/public/v1/
     tags:
+      - Fashion
+      - E-Commerce
+      - Retail
+      - Generative AI
+      - Image-Generation
+      - Virtual Try-On
+      - Computer-Vision
+      - Video Generation
+      - Product Photography
+      - Creative / Design Tools
+    tags_raw:
       - Fashion
       - E-commerce
       - Retail
