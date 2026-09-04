@@ -13,6 +13,21 @@ description: >-
   than 18 endpoints. There is no OpenAPI, GraphQL schema, Postman collection, MCP
   server, agent card, SDK, webhook surface, status page or changelog, and the
   reference states plainly that this version carries no idempotency protection.
+accessModel:
+  pricing: paid
+  onboarding: unknown
+  trial: false
+  try_now: false
+  public: false
+  label: Paid
+  confidence: high
+  source:
+  - plans
+  - authentication
+  - rate-limits
+  - security
+  generated: '2026-09-03'
+  method: derived
 image: >-
   https://zhiyi-image.oss-cn-hangzhou.aliyuncs.com/devops/comfyui/input/demo/web-assets/fd-web/v20260806/images/product-hero/home.webp
 url: >-
