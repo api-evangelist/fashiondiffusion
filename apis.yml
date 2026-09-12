@@ -123,6 +123,8 @@ generated:
   confidence: 80
   at: '2026-08-31T03:44:59.070Z'
 common:
+- type: Website
+  url: https://www.fashiondiffusion.ai/
 - type: DomainSecurity
   url: security/fashiondiffusion-domain-security.yml
 - type: DeveloperPortal
