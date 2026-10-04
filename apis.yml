@@ -40,9 +40,9 @@ tags:
   - E-Commerce
   - Retail
   - Generative AI
-  - Image-Generation
+  - Image Generation
   - Virtual Try-On
-  - Computer-Vision
+  - Computer Vision
   - Video Generation
   - Product Photography
   - Creative / Design Tools
@@ -57,6 +57,8 @@ tags_raw:
   - Video Generation
   - Product Photography
   - Creative / Design Tools
+  - Image-Generation
+  - Computer-Vision
 apis:
   - name: Fashion Diffusion Public API
     description: >-
@@ -77,9 +79,9 @@ apis:
       - E-Commerce
       - Retail
       - Generative AI
-      - Image-Generation
+      - Image Generation
       - Virtual Try-On
-      - Computer-Vision
+      - Computer Vision
       - Video Generation
       - Product Photography
       - Creative / Design Tools
@@ -94,6 +96,8 @@ apis:
       - Video Generation
       - Product Photography
       - Creative / Design Tools
+      - Image-Generation
+      - Computer-Vision
     properties:
       - type: Documentation
         url: https://www.fashiondiffusion.ai/playground/api/docs
