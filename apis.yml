@@ -127,6 +127,10 @@ generated:
   confidence: 80
   at: '2026-08-31T03:44:59.070Z'
 common:
+- type: Plans
+  url: plans/fashiondiffusion-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/fashiondiffusion-rate-limits.yml
 - type: Website
   url: https://www.fashiondiffusion.ai/
 - type: DomainSecurity
