@@ -1,4 +1,4 @@
-# ai-fashion-design-platform-for-brands-amp-creators
+# Fashion Diffusion
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,4 +64,108 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-AI Fashion Design Platform for Brands &amp; Creators offering a generative AI fashion suite (virtual try-on, AI model/outfit generation, flat lay, background removal, recolor, face swap, fashion video). Provides a key-authenticated REST API, currently documenting Virtual Try-On task endpoints.
+AI fashion design and commercial photography platform for brands and creators, offering a generative AI fashion suite — virtual try-on, AI model and outfit generation, flat lay production, background change and removal, garment recolor, face swap and fashion video. Fashion Diffusion exposes a bearer-key REST Public API at https://www.fashiondiffusion.ai/api/public/v1/ built on a submit-and-poll task model: a generation request returns HTTP 202 with a task id, and the caller polls until the task reaches SUCCEEDED or FAILED. The published reference documents four operations across two capabilities — Virtual Try-On and AI Inpainting submission plus task query and cursor-paginated task list — while marketing advertises more than 18 endpoints. There is no OpenAPI, GraphQL schema, Postman collection, MCP server, agent card, SDK, webhook surface, status page or changelog, and the reference states plainly that this version carries no idempotency protection.
+
+**Areas:** Fashion · E-Commerce · Retail · Generative AI · Image Generation · Virtual Try-On · Computer Vision · Video Generation · Product Photography · Creative / Design Tools
+
+## Fashion Diffusion on APIs.io
+
+Everything profiled for Fashion Diffusion is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/fashiondiffusion/](https://apis.io/providers/fashiondiffusion/)** — or go straight to one of the APIs or properties below.
+
+### APIs (1)
+
+- [Fashion Diffusion Public API](https://apis.io/apis/fashiondiffusion/fashion-diffusion-public-api/) — REST API for asynchronous AI fashion generation tasks. Authenticates with a single long-lived bearer API key (Authorization: Bearer fd_live_xxx); the secret…
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [Fashion Diffusion — MCP candidate](https://apis.io/servers/fashiondiffusion/fashion-diffusion-mcp-candidate/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Fashiondiffusion Authentication](https://apis.io/security/fashiondiffusion/fashiondiffusion-authentication/)
+- [Fashiondiffusion Domain Security](https://apis.io/security/fashiondiffusion/fashiondiffusion-domain-security/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Fashiondiffusion Plans Pricing](https://apis.io/plans/fashiondiffusion/fashiondiffusion-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Fashiondiffusion Rate Limits](https://apis.io/rate-limits/fashiondiffusion/fashiondiffusion-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://www.fashiondiffusion.ai/)
+- [Pricing](https://www.fashiondiffusion.ai/pricing)
+- [Sign up](https://www.fashiondiffusion.ai/login)
+- [Blog](https://www.fashiondiffusion.ai/blog)
+- [Terms of service](https://www.fashiondiffusion.ai/terms-of-service)
+- [Privacy policy](https://www.fashiondiffusion.ai/privacy-policy)
+- [GitHub](https://github.com/FashionDiffusion)
+
+## API Evangelist rating
+
+**Kin Score 36.4** — thin · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 66.1 |
+| Contract quality | 0.0 |
+| Contract governance | 18.2 |
+| Operational transparency | 2.6 |
+| Developer ergonomics | 45.2 |
+| Access clarity | 84.2 |
+
+**Agent readiness 7.9** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | — |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | documented (partial credit) |
+| OpenAPI Examples | — |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 27.3** — AI & Biometrics
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/fashiondiffusion/](https://apis.io/providers/fashiondiffusion/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Fashion Diffusion: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/fashiondiffusion/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
